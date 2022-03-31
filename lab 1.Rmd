@@ -248,7 +248,7 @@ mpg %>%
 The following code finds the average highway mileage by manufacturer, counts the number of cars produced by each manufacturer, and prints the top 10 manufacturers with largest numbers of cars, arranged by mileage:
 
 ```{r}
-mpg %>% 
+mpg %>%  
   group_by(manufacturer) %>% 
   summarise(avg_hwy = mean(hwy),
             count = n()) %>% 
