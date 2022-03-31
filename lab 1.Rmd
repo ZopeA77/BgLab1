@@ -129,7 +129,7 @@ There are five key `tidyverse` functions, or "verbs." We'll go through each of t
 Say that you are interested in selecting only those rows in `mpg` that represent Audi compact cars. The easiest way to select them is:
 
 ```{r}
-mpg %>% 
+mpg %>%  
   filter(class == "compact" & manufacturer == "audi")
 ```
 
