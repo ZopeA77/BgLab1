@@ -273,6 +273,12 @@ On your own, working with the `flights` data:
 - What does 1:3 + 1:10 return? Why do you think it returns this?
 
 ```{r}
+x <- 1:3 + 1:10
+x
+#When adding two vectors, R recycles the shorter vector’s values to create a vector of the same length as the longer vector. 
+```
+
+```{r}
  mutate(flights, dep_time = (dep_time %/% 100) * 60 + (dep_time %% 100),
         sched_dep_time = (sched_dep_time %/% 100) * 60 + (sched_dep_time %% 100))
 ```
