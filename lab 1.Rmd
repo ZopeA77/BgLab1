@@ -168,17 +168,26 @@ On your own, find ways to filter the `flights` data set from the `nycflights13` 
 library(nycflights13)
 library(dplyr)
 late_dept <- flights %>% 
-    filter(dep_delay >= 2)
+    filter(dep_delay >= 120)
 #late_dept
 fly_Houston <- flights %>% 
-    filter(dest == "IAH")
+    filter(dest == "IAH" | dest == "HOU")
 #fly_Houston
 airliner <- flights %>%
     filter(carrier == "UA" | carrier == "AA" | carrier == "DL")
 #airliner
 summer_dep <- flights %>%
   filter(month >= 7 & month <= 9)
-summer_dep
+#summer_dep
+late_arrival_early <- flights %>% 
+  filter(arr_delay > 120 & dep_delay <= 0)
+#late_arrival_early
+made_time <- flights %>%
+  filter(dep_delay >= 60 & dep_delay - arr_delay > 30)
+#made_time
+red_eye <- flights %>% 
+  filter(sched_dep_time == 2400 | sched_dep_time <= 0600 )
+#red_eye
 
 ```
 
@@ -215,6 +224,21 @@ On your own, working with the `flights` data:
 
 - What happens if you include the name of a variable multiple times in a `select()` call?
 
+```{r}
+
+flights_small <- flights %>% 
+  select(dep_time, arr_time, arr_delay, dep_delay)
+select(flights, c(dep_time, dep_delay, arr_time, arr_delay))
+flights %>% select(dep_time, dep_delay, arr_time, arr_delay)
+flights %>% select_("dep_time", "dep_delay", "arr_time", "arr_delay")
+flights %>% select_(.dots=c("dep_time", "dep_delay", "arr_time", "arr_delay"))
+flights_big <- flights %>%
+select(dep_time,dep_time, arr_time, arr_delay, dep_delay)
+#Nothing, it will still display that variable once. 
+```
+
+
+
 ### Create or add new variables: `mutate()`
 
 Besides selecting existing columns, it’s often useful to add new columns that are functions of existing columns. That’s the job of `mutate()`.
@@ -247,6 +271,12 @@ On your own, working with the `flights` data:
 - Currently `dep_time` and `sched_dep_time` are convenient to look at, but hard to compute with because they’re not really continuous numbers. Convert them to a more convenient representation of number of minutes since midnight.
 
 - What does 1:3 + 1:10 return? Why do you think it returns this?
+
+```{r}
+ mutate(flights, dep_time = (dep_time %/% 100) * 60 + (dep_time %% 100),
+        sched_dep_time = (sched_dep_time %/% 100) * 60 + (sched_dep_time %% 100))
+```
+
 
 ### Create grouped summaries of data frames: `summarise()`
 
